@@ -52,6 +52,9 @@ class Licencie
     #[ORM\JoinColumn(nullable: false)]
     private ?qualite $idqualite = null;
 
+    #[ORM\OneToOne(mappedBy: 'licencie', cascade: ['persist', 'remove'])]
+    private ?Compte $compte = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -197,6 +200,23 @@ class Licencie
     public function setIdqualite(?qualite $idqualite): static
     {
         $this->idqualite = $idqualite;
+
+        return $this;
+    }
+
+    public function getCompte(): ?Compte
+    {
+        return $this->compte;
+    }
+
+    public function setCompte(Compte $compte): static
+    {
+        // set the owning side of the relation if necessary
+        if ($compte->getLicencie() !== $this) {
+            $compte->setLicencie($this);
+        }
+
+        $this->compte = $compte;
 
         return $this;
     }

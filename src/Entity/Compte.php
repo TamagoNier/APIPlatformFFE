@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CompteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: CompteRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -29,6 +31,13 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Inscription $Inscription = null;
+
+    #[ORM\OneToOne(inversedBy: 'compte', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Licencie $licencie = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function getId(): ?int
     {
@@ -127,6 +136,30 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     public function setInscription(?Inscription $Inscription): static
     {
         $this->Inscription = $Inscription;
+
+        return $this;
+    }
+
+    public function getLicencie(): ?Licencie
+    {
+        return $this->licencie;
+    }
+
+    public function setLicencie(Licencie $licencie): static
+    {
+        $this->licencie = $licencie;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
