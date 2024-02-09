@@ -11,8 +11,10 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        $number = random_int(0, 100);
+
+        return new Response(
+            '<html><body>Lucky number: '.$number.'</body></html>'
+        );
     }
 }
