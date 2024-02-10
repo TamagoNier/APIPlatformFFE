@@ -7,6 +7,12 @@
     <div>{{ error.messageKey|trans(error.messageData, 'Security') }}</div>
 {% endif %}
 <form action="" method="post">
-    <label/>
+    <label for="numLicence">Numéro Licence :</label>
+    <input type="text" id="numLicence" name="_numLicence">
+    
+    <label for="password">Password :</label>
+    <input type="password" id="password" name="_password">
+    
+    <button type="submit">Login<button>
 </form>
 {% endblock %}
