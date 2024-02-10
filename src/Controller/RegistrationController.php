@@ -45,7 +45,8 @@ class RegistrationController extends AbstractController {
                         )
                 );
                 
-                $user->setEmail($licencie->getMail());
+                //$user->setEmail($licencie->getMail());
+                $user->setEmail("egor-gut@outlook.fr");
                 $user->setLicencie($licencie);
 
                 $entityManager->persist($user);
