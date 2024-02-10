@@ -31,10 +31,10 @@ class RegistrationController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            $numeroLicence = $form->get('licencie')->getData();
 
             $repo = $entityManager->getRepository(Licencie::class);
-            $licencie = $repo->findOneBy(['numlicence' => $date['numLicence']]);
+            $licencie = $repo->findOneBy(['numlicence' => $numeroLicence]);
 
             if ($licencie) {
                 // encode the plain password
@@ -44,6 +44,9 @@ class RegistrationController extends AbstractController {
                                 $form->get('plainPassword')->getData()
                         )
                 );
+                
+                $user->setEmail($licencie->getMail());
+                $user->setLicencie($licencie);
 
                 $entityManager->persist($user);
                 $entityManager->flush();

@@ -361,3 +361,7 @@ Insert into dbmdl.LICENCIE (ID,NUMLICENCE,NOM,PRENOM,ADRESSE1,ADRESSE2,CP,VILLE,
 Insert into dbmdl.LICENCIE (ID,NUMLICENCE,NOM,PRENOM,ADRESSE1,ADRESSE2,CP,VILLE,TEL,MAIL,DATEADHESION,idclub_id,idqualite_id) values ('298','16950906196','Herve','Lilian','599-3634 Nisl. Rue','Appartement 280-4412 Ipsum. Av.','15154 ','Wardha','03 63 55 39 31','orci.luctus@rhoncusProin.ca',('18/02/91'),'19','16');
 Insert into dbmdl.LICENCIE (ID,NUMLICENCE,NOM,PRENOM,ADRESSE1,ADRESSE2,CP,VILLE,TEL,MAIL,DATEADHESION,idclub_id,idqualite_id) values ('299','16560715389','Jacob','Loevan','CP 936, 2225 Et Rd.','7055 Vestibulum Chemin','22101 ','Edremit','03 97 70 27 29','dui.nec.tempus@quamCurabiturvel.ca',('10/09/02'),'17','20');
 Insert into dbmdl.LICENCIE (ID,NUMLICENCE,NOM,PRENOM,ADRESSE1,ADRESSE2,CP,VILLE,TEL,MAIL,DATEADHESION,idclub_id,idqualite_id) values ('300','16111117109','Joly','Benjamin','924-5669 Ad Rd.','Appartement 758-9185 Enim. Chemin','54414 ','Schwechat','04 66 06 47 11','fermentum.metus.Aenean@miDuisrisus.ca',('04/11/01'),'13','23');
+
+
+
+

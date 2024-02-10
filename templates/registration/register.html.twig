@@ -12,12 +12,13 @@
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
+    {{ form_row(registrationForm.licencie) }}
+    {{ form_row(registrationForm.plainPassword.first, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+    {{ form_row(registrationForm.plainPassword.second, {
+            label: 'Confirm Password'
+        }) }}
+    <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 {% endblock %}
