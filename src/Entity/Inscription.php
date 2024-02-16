@@ -25,10 +25,14 @@ class Inscription
     #[ORM\ManyToMany(targetEntity: Restauration::class)]
     private Collection $restauration;
 
+    #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'insciptions')]
+    private Collection $ateliers;
+
     public function __construct()
     {
         $this->nuites = new ArrayCollection();
         $this->restauration = new ArrayCollection();
+        $this->ateliers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,6 +102,33 @@ class Inscription
     public function removeRestauration(Restauration $restauration): static
     {
         $this->restauration->removeElement($restauration);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Atelier>
+     */
+    public function getAteliers(): Collection
+    {
+        return $this->ateliers;
+    }
+
+    public function addAtelier(Atelier $atelier): static
+    {
+        if (!$this->ateliers->contains($atelier)) {
+            $this->ateliers->add($atelier);
+            $atelier->addInsciption($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAtelier(Atelier $atelier): static
+    {
+        if ($this->ateliers->removeElement($atelier)) {
+            $atelier->removeInsciption($this);
+        }
 
         return $this;
     }
