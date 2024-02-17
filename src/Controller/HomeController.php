@@ -17,4 +17,10 @@ class HomeController extends AbstractController
             '<html><body>Lucky number: '.$number.'</body></html>'
         );
     }
+    
+    #[Route('/ajout', name: 'app_ajout')]
+    public function ajoutAtelierThemeVacation() : Response
+    {
+        return $this->render('home/addAtelierThemeVacation.html.twig');
+    }
 }
