@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<form action="{{ path('app_form_ajout') }}" method="post">
+    <label for="atelier">Atelier</label>
+    <input type="radio" name="choice" id="atelier" value="atelier">
+
+    <label for="vacation">Vacations</label>
+    <input type="radio" name="choice" id="vacation" value="vacation">
+
+    <label for="theme">Thème</label>
+    <input type="radio" name="choice" id="theme" value="theme">
+
+    <button type="submit">Soumettre</button>
+</form>
+{% endblock %}

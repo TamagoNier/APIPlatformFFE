@@ -2,23 +2,27 @@
 
 namespace App\Form;
 
+use App\Entity\Atelier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AjoutAtelierThemesVacationsType extends AbstractType
+class AtelierType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('field_name')
+            ->add('libelle')
+            ->add('nbPlacesMaxi')
+            ->add('insciptions')
+            ->add('themes')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => Atelier::class,
         ]);
     }
 }
