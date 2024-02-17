@@ -28,13 +28,13 @@ class Atelier
     private Collection $themes;
 
     #[ORM\OneToMany(mappedBy: 'atelier', targetEntity: Vacation::class, orphanRemoval: true)]
-    private Collection $vacation;
+    private Collection $vacations;
 
     public function __construct()
     {
         $this->insciptions = new ArrayCollection();
         $this->themes = new ArrayCollection();
-        $this->vacation = new ArrayCollection();
+        $this->vacations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,18 +117,11 @@ class Atelier
         return $this;
     }
 
-    /**
-     * @return Collection<int, Vacation>
-     */
-    public function getVacation(): Collection
-    {
-        return $this->vacation;
-    }
 
     public function addVacation(Vacation $vacation): static
     {
-        if (!$this->vacation->contains($vacation)) {
-            $this->vacation->add($vacation);
+        if (!$this->vacations->contains($vacation)) {
+            $this->vacations->add($vacation);
             $vacation->setAtelier($this);
         }
 
@@ -145,5 +138,13 @@ class Atelier
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Vacation>
+     */
+    public function getVacations(): Collection
+    {
+        return $this->vacations;
     }
 }

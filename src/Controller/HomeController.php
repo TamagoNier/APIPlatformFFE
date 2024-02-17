@@ -27,6 +27,7 @@ class HomeController extends AbstractController {
 
     #[Route('/choixform', name: 'app_choix_form')]
     public function choixForm(): Response {
+        //$this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
         return $this->render('home/addChoice.html.twig');
     }
 
@@ -38,9 +39,11 @@ class HomeController extends AbstractController {
             case 'vacation' :
                 return $this->redirectToRoute('add_vacation');
                 break;
+
             case 'theme':
                 return $this->redirectToRoute('add_theme');
                 break;
+
             case 'atelier':
                 return $this->redirectToRoute('add_atelier');
                 break;
@@ -52,15 +55,23 @@ class HomeController extends AbstractController {
         $vacation = new Vacation();
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($r);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($vacation);
-            $em->flush();
-            return $this->redirectToRoute('app_home');
+            $dateheureDebut = $form->get('dateheureDebut')->getData();
+            $dateheureFin = $form->get('dateheureFin')->getData();
+
+            if ($dateheureDebut > $dateheureFin) {
+                throw new \Exception('La date de fin doit etre inferieure à la date de début !');
+            } else {
+
+                $em->persist($vacation);
+                $em->flush();
+                return $this->redirectToRoute('app_home');
+            }
         }
-        
+
         return $this->render("home/form.html.twig", [
-           'form' => $form->createView(),
+                    'form' => $form->createView(),
         ]);
     }
 
@@ -69,14 +80,14 @@ class HomeController extends AbstractController {
         $theme = new Theme();
         $form = $this->createForm(ThemeType::class, $theme);
         $form->handleRequest($r);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($theme);
             $em->flush();
             return $this->redirectToRoute('app_home');
         }
         return $this->render("home/form.html.twig", [
-           'form' => $form->createView(),
+                    'form' => $form->createView(),
         ]);
     }
 
@@ -85,14 +96,14 @@ class HomeController extends AbstractController {
         $atelier = new Atelier();
         $form = $this->createForm(AtelierType::class, $atelier);
         $form->handleRequest($r);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($atelier);
             $em->flush();
             return $this->redirectToRoute('app_home');
         }
         return $this->render("home/form.html.twig", [
-           'form' => $form->createView(),
+                    'form' => $form->createView(),
         ]);
     }
 }
