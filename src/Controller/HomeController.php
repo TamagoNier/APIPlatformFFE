@@ -52,7 +52,14 @@ class HomeController extends AbstractController {
 
     #[Route('/addvacation', name: 'add_vacation')]
     public function addVacation(Request $r, EntityManagerInterface $em): Response {
-        $vacation = new Vacation();
+        $idVacation = $r->query->get('idVacation');
+        
+        if($idVacation){
+            $vacation = $em->getRepository(Vacation::class)->find($idVacation);
+        }else {
+            $vacation = new Vacation();
+        }
+                
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($r);
 
@@ -118,7 +125,7 @@ class HomeController extends AbstractController {
 
     #[Route('choisirvacation', name: 'choisir_vacation')]
     public function choisirVacation(Request $r, EntityManagerInterface $em): Response {
-        $idAtelier = $r->get('idAtelier');
+        $idAtelier = $r->query->get('idAtelier');
         $atelier = $em->getRepository(Atelier::class)->findOneById($idAtelier);
 
         $vacations = $atelier->getVacations();

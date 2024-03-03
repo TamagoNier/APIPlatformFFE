@@ -15,12 +15,15 @@ class ThemeType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-                ->add('libelle', TextType::class)
+                ->add('libelle', TextType::class, [
+                    'required' => true,
+                ])
                 ->add('ateliers', EntityType::class, [
                     'class' => Atelier::class, // Entité Atelier
                     'choice_label' => 'libelle', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
+                    'required' => true,
         ]);
         ;
     }

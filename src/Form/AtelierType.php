@@ -14,8 +14,12 @@ class AtelierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelle', TextType::class)
-            ->add('nbPlacesMaxi', IntegerType::class)
+            ->add('libelle', TextType::class,[
+                'required' => true,
+            ])
+            ->add('nbPlacesMaxi', IntegerType::class,[
+                'required' => true,
+            ])
         ;
     }
 

@@ -15,11 +15,16 @@ class VacationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateheureDebut', DateTimeType::class)
-            ->add('dateheureFin', DateTimeType::class)
+            ->add('dateheureDebut', DateTimeType::class,[
+                'required' => true,
+            ])
+            ->add('dateheureFin', DateTimeType::class,[
+                'required' => true,
+            ])
             ->add('atelier', EntityType::class, [
                 'class'=> Atelier::class,
-                'choice_label'=>'libelle'
+                'choice_label'=>'libelle',
+                'required' => true,
             ])
         ;
     }

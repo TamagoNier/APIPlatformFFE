@@ -2,6 +2,6 @@
 
 {% block body %}
     {% for vacation in vacations %}
-        <a>{{ vacation.id }}</a><br>
+        <a href="{{ path('add_vacation', {'idVacation': vacation.id }) }}">{{ vacation.id }}</a><br>
     {% endfor %}
 {% endblock %}
