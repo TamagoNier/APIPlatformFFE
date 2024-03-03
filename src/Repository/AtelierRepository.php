@@ -20,6 +20,17 @@ class AtelierRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Atelier::class);
     }
+    
+    public function findAteliersWithVacations()
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.vacations', 'v')
+            ->where('a.vacations IS NOT EMPTY')
+            ->groupBy('a.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    /**
 //     * @return Atelier[] Returns an array of Atelier objects

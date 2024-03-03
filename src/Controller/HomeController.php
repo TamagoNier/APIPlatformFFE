@@ -106,4 +106,25 @@ class HomeController extends AbstractController {
                     'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/choisiratelier', name: 'choisir_atelier')]
+    public function choisirAtelier(EntityManagerInterface $em): Response {
+        $ateliers = $em->getRepository(Atelier::class)->findAteliersWithVacations();
+
+        return $this->render("home/choisirAtelier.html.twig", [
+                    'ateliers' => $ateliers,
+        ]);
+    }
+
+    #[Route('choisirvacation', name: 'choisir_vacation')]
+    public function choisirVacation(Request $r, EntityManagerInterface $em): Response {
+        $idAtelier = $r->get('idAtelier');
+        $atelier = $em->getRepository(Atelier::class)->findOneById($idAtelier);
+
+        $vacations = $atelier->getVacations();
+        
+        return $this->render("home/choisirVacation.html.twig", [
+                    'vacations' => $vacations,
+        ]);
+    }
 }

@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for vacation in vacations %}
+        <a>{{ vacation.id }}</a><br>
+    {% endfor %}
+{% endblock %}

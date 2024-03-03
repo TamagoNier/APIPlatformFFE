@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for atelier in ateliers %}
+        <a href="{{ path('choisir_vacation', {'idAtelier' : atelier.id }) }}">{{ atelier.libelle }}</a><br>
+    {% endfor %}
+{% endblock %}
