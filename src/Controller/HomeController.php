@@ -27,7 +27,7 @@ class HomeController extends AbstractController {
 
     #[Route('/choixform', name: 'app_choix_form')]
     public function choixForm(): Response {
-        //$this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
         return $this->render('home/addChoice.html.twig');
     }
 
@@ -133,5 +133,11 @@ class HomeController extends AbstractController {
         return $this->render("home/choisirVacation.html.twig", [
                     'vacations' => $vacations,
         ]);
+    }
+    
+    
+    public function demandeInscription(Request $r, EntityManagerInterface $em): Response
+    {
+        return $this->render('home/demandeInscription.html.twig');
     }
 }
