@@ -23,7 +23,7 @@ class Nuite
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?categorieChambre $categorie = null;
+    private ?CategorieChambre $categorie = null;
 
     public function getId(): ?int
     {
@@ -54,12 +54,12 @@ class Nuite
         return $this;
     }
 
-    public function getCategorie(): ?categorieChambre
+    public function getCategorie(): ?CategorieChambre
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?categorieChambre $categorie): static
+    public function setCategorie(?CategorieChambre $categorie): static
     {
         $this->categorie = $categorie;
 

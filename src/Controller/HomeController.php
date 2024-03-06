@@ -13,6 +13,7 @@ use App\Entity\Vacation;
 use App\Form\AtelierType;
 use App\Form\VacationType;
 use App\Form\ThemeType;
+use App\Form\DemandeInscriptionType;
 
 class HomeController extends AbstractController {
 
@@ -53,13 +54,13 @@ class HomeController extends AbstractController {
     #[Route('/addvacation', name: 'add_vacation')]
     public function addVacation(Request $r, EntityManagerInterface $em): Response {
         $idVacation = $r->query->get('idVacation');
-        
-        if($idVacation){
+
+        if ($idVacation) {
             $vacation = $em->getRepository(Vacation::class)->find($idVacation);
-        }else {
+        } else {
             $vacation = new Vacation();
         }
-                
+
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($r);
 
@@ -129,32 +130,29 @@ class HomeController extends AbstractController {
         $atelier = $em->getRepository(Atelier::class)->findOneById($idAtelier);
 
         $vacations = $atelier->getVacations();
-        
+
         return $this->render("home/choisirVacation.html.twig", [
                     'vacations' => $vacations,
         ]);
     }
-    
+
     #[Route('demandeinscription', name: 'demande_inscription')]
-    public function demandeInscription(Request $r, EntityManagerInterface $em): Response
-    {
+    public function demandeInscription(Request $r, EntityManagerInterface $em): Response {
         $user = $this->getUser();
         $numLicence = $user->getLicencie()->getNumLicence();
         $nom = $user->getLicencie()->getNom();
         $prenom = $user->getLicencie()->getPrenom();
-        
         $email = $user->getEmail();
-        return $this->render('home/demandeInscription.html.twig', [
-            'prenom'=>$prenom,
-            'nom'=>$nom,
-            'num_licence'=>$numLicence,
-            'email' => $email
-        ]);
-    }
-    
-    #[Route('inscription', name: 'inscription')]
-    public function inscription(Request $r, EntityManagerInterface $em):Response
-    {
         
+        $form = $this->createForm(DemandeInscriptionType::class);
+        $form->handleRequest($r);
+
+        return $this->render('home/demandeInscription.html.twig', [
+                    'form' => $form->createView(),
+                    'prenom' => $prenom,
+                    'nom' => $nom,
+                    'num_licence' => $numLicence,
+                    'email' => $email
+        ]);
     }
 }

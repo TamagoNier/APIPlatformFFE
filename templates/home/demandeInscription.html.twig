@@ -4,9 +4,11 @@
     <p>nom : {{ nom }}</p>
     <p>prenom : {{ prenom }}</p>
     <p>numéro de licence : {{ num_licence }}</p>
-    <form action="{{ path('inscription') }}" method="post">
+    {{ form_start(form) }}
         <input id="email" name="email" value="{{ email }}"/>
+        <p>Choix nuité</p>
+        {{ form_widget(form) }}
         
-        <button type="submit">Soumettre</button>
+    {{ form_end(form) }}
     </form>
 {% endblock %}
