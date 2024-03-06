@@ -138,7 +138,18 @@ class HomeController extends AbstractController {
     #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em): Response
     {
-        return $this->render('home/demandeInscription.html.twig');
+        $user = $this->getUser();
+        $numLicence = $user->getLicencie()->getNumLicence();
+        $nom = $user->getLicencie()->getNom();
+        $prenom = $user->getLicencie()->getPrenom();
+        
+        $email = $user->getEmail();
+        return $this->render('home/demandeInscription.html.twig', [
+            'prenom'=>$prenom,
+            'nom'=>$nom,
+            'num_licence'=>$numLicence,
+            'email' => $email
+        ]);
     }
     
     #[Route('inscription', name: 'inscription')]

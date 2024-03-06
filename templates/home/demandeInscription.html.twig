@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <p>nom : {{ nom }}</p>
+    <p>prenom : {{ prenom }}</p>
+    <p>numéro de licence : {{ num_licence }}</p>
     <form action="{{ path('inscription') }}" method="post">
+        <input id="email" name="email" value="{{ email }}"/>
         
+        <button type="submit">Soumettre</button>
     </form>
 {% endblock %}
