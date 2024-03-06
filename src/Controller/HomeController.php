@@ -25,13 +25,13 @@ class HomeController extends AbstractController {
         );
     }
 
-    #[Route('/choixform', name: 'app_choix_form')]
+    #[Route('/choixform', name: 'choix_form')]
     public function choixForm(): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
         return $this->render('home/addChoice.html.twig');
     }
 
-    #[Route('/formajout', name: 'app_form_ajout')]
+    #[Route('/formajout', name: 'form_ajout')]
     public function formAjout(Request $r): Response {
         $choice = $r->request->get('choice');
 
@@ -135,9 +135,15 @@ class HomeController extends AbstractController {
         ]);
     }
     
-    
+    #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em): Response
     {
         return $this->render('home/demandeInscription.html.twig');
+    }
+    
+    #[Route('inscription', name: 'inscription')]
+    public function inscription(Request $r, EntityManagerInterface $em):Response
+    {
+        
     }
 }
