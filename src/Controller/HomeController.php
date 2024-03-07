@@ -169,7 +169,8 @@ class HomeController extends AbstractController {
             
             $nuitUn = $em->getRepository(Proposer::class)->findOneById($nuitUnId);
             $nuitDeux = $em->getRepository(Proposer::class)->findOneById($nuitDeuxId);
-           
+            
+            
             
             var_dump($inscription);
             var_dump($email);
