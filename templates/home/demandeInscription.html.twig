@@ -4,16 +4,42 @@
     <p>nom : {{ nom }}</p>
     <p>prenom : {{ prenom }}</p>
     <p>numéro de licence : {{ num_licence }}</p>
+
     {{ form_start(form) }}
+    
     <input id="email" name="email" value="{{ email }}"/>
     {{ form_widget(form) }}
-    
-    <p>Nuites</p>
 
-    <div style="display: grid;">
-               
+    <h2>Nuites</h2>
+
+    <div>
+        <p>6 au 7 Septembre</p>
+        <div style="display: grid;">
+            {% for hotel in hotels %}
+                <div style="grid-column: 1">
+                    <p>{{ hotel.getNom() }}</p>
+                    {% for tarif in hotel.getTarifs() %}
+                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }}</label>
+                        <input type="radio" id="chambre{{ tarif.getId() }}" name="sept6_7" value="{{ tarif.getId() }}"/>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div><br>
+
+        <p>7 au 8 Septembre</p>
+        <div style="display: grid;">
+            {% for hotel in hotels %}
+                <div style="grid-column: 1">
+                    <p>{{ hotel.getNom() }}</p>
+                    {% for tarif in hotel.getTarifs() %}
+                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }}</label>
+                        <input type="radio" id="chambre{{ tarif.getId() }}" name="sept7_8" value="{{ tarif.getId() }}"/>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
     <button type="submit">Submit</button>
     {{ form_end(form) }}
-</form>
 {% endblock %}

@@ -17,6 +17,8 @@ use App\Form\DemandeInscriptionType;
 use App\Form\NuiteType;
 use App\Entity\Inscription;
 use \App\Entity\Nuite;
+use App\Entity\Proposer;
+use App\Entity\Hotel;
 
 class HomeController extends AbstractController {
 
@@ -146,21 +148,42 @@ class HomeController extends AbstractController {
         $nom = $user->getLicencie()->getNom();
         $prenom = $user->getLicencie()->getPrenom();
         $email = $user->getEmail();
-        
+
         $form = $this->createForm(DemandeInscriptionType::class);
         $form->handleRequest($r);
-                
+
+        $proposer = $em->getRepository(Proposer::class)->findAll();
+        $hotels = $em->getRepository(Hotel::class)->findAll();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($form->getData());
+            $inscription = new Inscription();
+            
+            $formData = $form->getData();
+
+            $inscription->addRestaurations($formData['restauration']);
+            $inscription->addAteliers($formData['ateliers']);
+            
+            $nuitUnId = $r->request->get('sept6_7'); 
+            $nuitDeuxId = $r->request->get('sept7_8'); 
+            $email = $r->request->get('email'); 
+            
+            $nuitUn = $em->getRepository(Proposer::class)->findOneById($nuitUnId);
+            $nuitDeux = $em->getRepository(Proposer::class)->findOneById($nuitDeuxId);
+           
+            
+            var_dump($inscription);
+            var_dump($email);
             exit;
         }
-        
+
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),
                     'prenom' => $prenom,
                     'nom' => $nom,
                     'num_licence' => $numLicence,
-                    'email' => $email
+                    'email' => $email,
+                    'proposer' => $proposer,
+                    'hotels' => $hotels
         ]);
     }
 }

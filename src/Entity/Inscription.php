@@ -9,8 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InscriptionRepository::class)]
-class Inscription
-{
+class Inscription {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,25 +28,21 @@ class Inscription
     #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'insciptions')]
     private Collection $ateliers;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->nuites = new ArrayCollection();
         $this->restauration = new ArrayCollection();
         $this->ateliers = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getDateInscription(): ?\DateTimeInterface
-    {
+    public function getDateInscription(): ?\DateTimeInterface {
         return $this->dateInscription;
     }
 
-    public function setDateInscription(\DateTimeInterface $dateInscription): static
-    {
+    public function setDateInscription(\DateTimeInterface $dateInscription): static {
         $this->dateInscription = $dateInscription;
 
         return $this;
@@ -55,13 +51,11 @@ class Inscription
     /**
      * @return Collection<int, Nuite>
      */
-    public function getNuites(): Collection
-    {
+    public function getNuites(): Collection {
         return $this->nuites;
     }
 
-    public function addNuite(Nuite $nuite): static
-    {
+    public function addNuite(Nuite $nuite): static {
         if (!$this->nuites->contains($nuite)) {
             $this->nuites->add($nuite);
             $nuite->setInscription($this);
@@ -70,8 +64,7 @@ class Inscription
         return $this;
     }
 
-    public function removeNuite(Nuite $nuite): static
-    {
+    public function removeNuite(Nuite $nuite): static {
         if ($this->nuites->removeElement($nuite)) {
             // set the owning side to null (unless already changed)
             if ($nuite->getInscription() === $this) {
@@ -85,13 +78,11 @@ class Inscription
     /**
      * @return Collection<int, Restauration>
      */
-    public function getRestauration(): Collection
-    {
+    public function getRestauration(): Collection {
         return $this->restauration;
     }
 
-    public function addRestauration(Restauration $restauration): static
-    {
+    public function addRestauration(Restauration $restauration): static {
         if (!$this->restauration->contains($restauration)) {
             $this->restauration->add($restauration);
         }
@@ -99,8 +90,7 @@ class Inscription
         return $this;
     }
 
-    public function removeRestauration(Restauration $restauration): static
-    {
+    public function removeRestauration(Restauration $restauration): static {
         $this->restauration->removeElement($restauration);
 
         return $this;
@@ -109,13 +99,11 @@ class Inscription
     /**
      * @return Collection<int, Atelier>
      */
-    public function getAteliers(): Collection
-    {
+    public function getAteliers(): Collection {
         return $this->ateliers;
     }
 
-    public function addAtelier(Atelier $atelier): static
-    {
+    public function addAtelier(Atelier $atelier): static {
         if (!$this->ateliers->contains($atelier)) {
             $this->ateliers->add($atelier);
             $atelier->addInsciption($this);
@@ -124,12 +112,25 @@ class Inscription
         return $this;
     }
 
-    public function removeAtelier(Atelier $atelier): static
-    {
+    public function removeAtelier(Atelier $atelier): static {
         if ($this->ateliers->removeElement($atelier)) {
             $atelier->removeInsciption($this);
         }
 
+        return $this;
+    }
+
+    public function addAteliers(Collection $ateliers): static {
+        foreach ($ateliers as $atelier) {
+            $this->addAtelier($atelier);
+        }
+        return $this;
+    }
+
+    public function addRestaurations(Collection $restaurations): static {
+        foreach ($restaurations as $restauration) {
+            $this->addRestauration($restauration);
+        }
         return $this;
     }
 }
