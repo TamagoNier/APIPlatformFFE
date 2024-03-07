@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Inscription;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Atelier;
 use App\Entity\Restauration;
+use App\Entity\Atelier;
+use App\Entity\Hotel;
+use App\Entity\CategorieChambre;
 
 class DemandeInscriptionType extends AbstractType
 {
@@ -35,7 +36,7 @@ class DemandeInscriptionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Inscription::class,
+            // Configure your form options here
         ]);
     }
 }

@@ -7,8 +7,13 @@
     {{ form_start(form) }}
     <input id="email" name="email" value="{{ email }}"/>
     {{ form_widget(form) }}
-    <p>Choix nuité</p>
-    {{ form(form_nuite) }}
+    
+    <p>Nuites</p>
+
+    <div style="display: grid;">
+               
+    </div>
+    <button type="submit">Submit</button>
     {{ form_end(form) }}
 </form>
 {% endblock %}

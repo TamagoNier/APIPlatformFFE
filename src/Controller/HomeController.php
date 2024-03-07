@@ -147,17 +147,16 @@ class HomeController extends AbstractController {
         $prenom = $user->getLicencie()->getPrenom();
         $email = $user->getEmail();
         
-        $inscription = new Inscription();
-        $form = $this->createForm(DemandeInscriptionType::class, $inscription);
+        $form = $this->createForm(DemandeInscriptionType::class);
         $form->handleRequest($r);
-
-        $nuite = new Nuite();
-        $formNuite = $this->createForm(NuiteType::class, $nuite);
-        $formNuite->handleRequest($r);
+                
+        if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($form->getData());
+            exit;
+        }
         
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),
-                    'form_nuite'=>$formNuite->createView(),
                     'prenom' => $prenom,
                     'nom' => $nom,
                     'num_licence' => $numLicence,
