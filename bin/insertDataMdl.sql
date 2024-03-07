@@ -8,3 +8,8 @@ values(1, 'single'),(2, 'double');
 insert into dbmdl.proposer(id, hotel_id, categorie_id, tarif_nuite)
 values(1, 1, 1, 95),(2, 1, 2, 105),(3, 2, 1, 75),(4, 2, 2, 80);
 
+INSERT INTO dbmdl.restauration(id, date_restauration, type_repas)
+VALUES
+    (1, STR_TO_DATE('07-09-2024 12:00:00', '%d-%m-%Y %H:%i:%s'), 'samedi midi'),
+    (2, STR_TO_DATE('07-09-2024 19:00:00', '%d-%m-%Y %H:%i:%s'), 'samedi soir'),
+    (3, STR_TO_DATE('08-09-2024 12:00:00', '%d-%m-%Y %H:%i:%s'), 'dimanche midi');

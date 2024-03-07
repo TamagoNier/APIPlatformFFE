@@ -14,6 +14,9 @@ use App\Form\AtelierType;
 use App\Form\VacationType;
 use App\Form\ThemeType;
 use App\Form\DemandeInscriptionType;
+use App\Form\NuiteType;
+use App\Entity\Inscription;
+use \App\Entity\Nuite;
 
 class HomeController extends AbstractController {
 
@@ -144,11 +147,17 @@ class HomeController extends AbstractController {
         $prenom = $user->getLicencie()->getPrenom();
         $email = $user->getEmail();
         
-        $form = $this->createForm(DemandeInscriptionType::class);
+        $inscription = new Inscription();
+        $form = $this->createForm(DemandeInscriptionType::class, $inscription);
         $form->handleRequest($r);
 
+        $nuite = new Nuite();
+        $formNuite = $this->createForm(NuiteType::class, $nuite);
+        $formNuite->handleRequest($r);
+        
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),
+                    'form_nuite'=>$formNuite->createView(),
                     'prenom' => $prenom,
                     'nom' => $nom,
                     'num_licence' => $numLicence,

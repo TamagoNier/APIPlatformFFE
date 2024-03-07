@@ -5,10 +5,10 @@
     <p>prenom : {{ prenom }}</p>
     <p>numéro de licence : {{ num_licence }}</p>
     {{ form_start(form) }}
-        <input id="email" name="email" value="{{ email }}"/>
-        <p>Choix nuité</p>
-        {{ form_widget(form) }}
-        
+    <input id="email" name="email" value="{{ email }}"/>
+    {{ form_widget(form) }}
+    <p>Choix nuité</p>
+    {{ form(form_nuite) }}
     {{ form_end(form) }}
-    </form>
+</form>
 {% endblock %}
