@@ -217,7 +217,7 @@ class HomeController extends AbstractController {
             
             $mailer->send($emailTotal);
             
-            $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home');
             }
 
         return $this->render('home/demandeInscription.html.twig', [
