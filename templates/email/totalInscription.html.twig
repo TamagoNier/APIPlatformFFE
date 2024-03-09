@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <p> Bonjour, {{ user.getLicencie().getNom() }} {{ user.getLicencie().getPrenom() }} <p>
+    <p>Votre total est : {{ total }}</p>
+{% endblock %}

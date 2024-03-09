@@ -7,9 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Security\EmailVerifier;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 use App\Entity\Atelier;
@@ -148,7 +147,7 @@ class HomeController extends AbstractController {
     }
 
     #[Route('demandeinscription', name: 'demande_inscription')]
-    public function demandeInscription(Request $r, EntityManagerInterface $em): Response {
+    public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
         $user = $this->getUser();;
 
         $form = $this->createForm(DemandeInscriptionType::class);
@@ -195,9 +194,21 @@ class HomeController extends AbstractController {
             $em->persist($inscription);
             $em->flush();
             
+            $total = 0;
+            
+            $emailTotal = (new TemplatedEmail())
+                    ->from('egor_gut@outlook.fr')
+                    ->to($email)
+                    ->subject("Total de l'inscription")
+                    ->htmlTemplate('email/totalInscription.html.twig')
+                    ->context([
+                        'user'=>$user,
+                        'total'=> $total
+                    ])
+                    ;
+            
+            $mailer->send($emailTotal);
 
-            var_dump($inscription);
-            var_dump($email);
             exit;
         }
 
