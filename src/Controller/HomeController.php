@@ -148,14 +148,19 @@ class HomeController extends AbstractController {
 
     #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
-        $user = $this->getUser();;
-
+        $user = $this->getUser();
+        
+        $fraisInscription = $this->getParameter('fraisInscription');
+        $tarifRepas = $this->getParameter('tarifRepas');
+        
         $form = $this->createForm(DemandeInscriptionType::class);
         $form->handleRequest($r);
 
         $proposer = $em->getRepository(Proposer::class)->findAll();
         $hotels = $em->getRepository(Hotel::class)->findAll();
-
+        
+        $total = $fraisInscription;
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $inscription = new Inscription();
             $inscription->setDateInscription(new \DateTime());
@@ -163,6 +168,8 @@ class HomeController extends AbstractController {
             $formData = $form->getData();
 
             $inscription->addRestaurations($formData['restauration']);
+            $total += $tarifRepas * count($formData['restauration']);
+            
             $inscription->addAteliers($formData['ateliers']);
 
             $email = $r->request->get('email');
@@ -178,6 +185,7 @@ class HomeController extends AbstractController {
                 $nuite->setHotel($nuitUn->getHotel());
                 $nuite->setCategorie($nuitUn->getCategorie());
 
+                $total += $nuitUn->getTarifNuite();
                 $inscription->addNuite($nuite);
             }
             if ($nuitDeuxId) {
@@ -187,18 +195,18 @@ class HomeController extends AbstractController {
                 $nuite->setDateNuitee(new \DateTime('2024-09-07'));
                 $nuite->setHotel($nuitDeux->getHotel());
                 $nuite->setCategorie($nuitDeux->getCategorie());
-
+                
+                $total += $nuitDeux->getTarifNuite();
                 $inscription->addNuite($nuite);
             }
             
             $em->persist($inscription);
             $em->flush();
             
-            $total = 0;
-            
+                      
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
-                    ->to($email)
+                    ->to('egor-gut@outlook.fr')
                     ->subject("Total de l'inscription")
                     ->htmlTemplate('email/totalInscription.html.twig')
                     ->context([
@@ -208,9 +216,9 @@ class HomeController extends AbstractController {
                     ;
             
             $mailer->send($emailTotal);
-
-            exit;
-        }
+            
+            $this->redirectToRoute('app_home');
+            }
 
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),

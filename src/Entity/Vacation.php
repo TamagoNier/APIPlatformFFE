@@ -22,7 +22,7 @@ class Vacation {
     #[Assert\GreaterThan(propertyPath:'dateheureDebut', message:"La date de fin doit être postérieure à la date de début.")]
     private ?\DateTimeInterface $dateheureFin = null;
 
-    #[ORM\ManyToOne(inversedBy: 'vacation')]
+    #[ORM\ManyToOne(inversedBy: 'vacations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Atelier $atelier = null;
 

@@ -46,11 +46,11 @@ class Licencie
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?club $idclub = null;
+    private ?Club $idclub = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?qualite $idqualite = null;
+    private ?Qualite $idqualite = null;
 
     #[ORM\OneToOne(mappedBy: 'licencie', cascade: ['persist', 'remove'])]
     private ?Compte $compte = null;

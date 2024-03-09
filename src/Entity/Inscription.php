@@ -19,14 +19,14 @@ class Inscription {
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
 
-    #[ORM\OneToMany(mappedBy: 'Inscription', targetEntity: Nuite::class)]
-    private Collection $nuites;
-
     #[ORM\ManyToMany(targetEntity: Restauration::class)]
     private Collection $restauration;
 
     #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'insciptions')]
     private Collection $ateliers;
+
+    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class, cascade:["persist"])]
+    private Collection $nuites;
 
     public function __construct() {
         $this->nuites = new ArrayCollection();
@@ -58,7 +58,6 @@ class Inscription {
     public function addNuite(Nuite $nuite): static {
         if (!$this->nuites->contains($nuite)) {
             $this->nuites->add($nuite);
-            $nuite->setInscription($this);
         }
 
         return $this;
