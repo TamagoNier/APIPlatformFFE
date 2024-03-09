@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Security\EmailVerifier;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
 use App\Entity\Atelier;
 use App\Entity\Theme;
 use App\Entity\Vacation;
@@ -19,6 +24,7 @@ use App\Entity\Inscription;
 use \App\Entity\Nuite;
 use App\Entity\Proposer;
 use App\Entity\Hotel;
+
 
 class HomeController extends AbstractController {
 
@@ -143,11 +149,7 @@ class HomeController extends AbstractController {
 
     #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em): Response {
-        $user = $this->getUser();
-        $numLicence = $user->getLicencie()->getNumLicence();
-        $nom = $user->getLicencie()->getNom();
-        $prenom = $user->getLicencie()->getPrenom();
-        $email = $user->getEmail();
+        $user = $this->getUser();;
 
         $form = $this->createForm(DemandeInscriptionType::class);
         $form->handleRequest($r);
@@ -157,21 +159,43 @@ class HomeController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $inscription = new Inscription();
-            
+            $inscription->setDateInscription(new \DateTime());
+
             $formData = $form->getData();
 
             $inscription->addRestaurations($formData['restauration']);
             $inscription->addAteliers($formData['ateliers']);
+
+            $email = $r->request->get('email');
+
+            $nuitUnId = $r->request->get('sept6_7');
+            $nuitDeuxId = $r->request->get('sept7_8');
+
+            if ($nuitUnId) {
+                $nuitUn = $em->getRepository(Proposer::class)->findOneById($nuitUnId);
+
+                $nuite = new Nuite();
+                $nuite->setDateNuitee(new \DateTime('2024-09-06'));
+                $nuite->setHotel($nuitUn->getHotel());
+                $nuite->setCategorie($nuitUn->getCategorie());
+
+                $inscription->addNuite($nuite);
+            }
+            if ($nuitDeuxId) {
+                $nuitDeux = $em->getRepository(Proposer::class)->findOneById($nuitDeuxId);
+
+                $nuite = new Nuite();
+                $nuite->setDateNuitee(new \DateTime('2024-09-07'));
+                $nuite->setHotel($nuitDeux->getHotel());
+                $nuite->setCategorie($nuitDeux->getCategorie());
+
+                $inscription->addNuite($nuite);
+            }
             
-            $nuitUnId = $r->request->get('sept6_7'); 
-            $nuitDeuxId = $r->request->get('sept7_8'); 
-            $email = $r->request->get('email'); 
+            $em->persist($inscription);
+            $em->flush();
             
-            $nuitUn = $em->getRepository(Proposer::class)->findOneById($nuitUnId);
-            $nuitDeux = $em->getRepository(Proposer::class)->findOneById($nuitDeuxId);
-            
-            
-            
+
             var_dump($inscription);
             var_dump($email);
             exit;
@@ -179,10 +203,7 @@ class HomeController extends AbstractController {
 
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),
-                    'prenom' => $prenom,
-                    'nom' => $nom,
-                    'num_licence' => $numLicence,
-                    'email' => $email,
+                    'user' => $user,
                     'proposer' => $proposer,
                     'hotels' => $hotels
         ]);

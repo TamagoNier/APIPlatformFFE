@@ -21,7 +21,7 @@ class DemandeInscriptionType extends AbstractType
                     'choice_label' => 'typeRepas', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
-                    'required' => true,
+                    'required' => false,
             ])
             ->add('ateliers', EntityType::class, [
                     'class' => Atelier::class, // Entité Atelier

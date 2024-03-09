@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p>nom : {{ nom }}</p>
-    <p>prenom : {{ prenom }}</p>
-    <p>numéro de licence : {{ num_licence }}</p>
+    <p>nom : {{ user.getLicencie().getNom() }}</p>
+    <p>prenom : {{ user.getLicencie().getPrenom() }}</p>
+    <p>numéro de licence : {{ user.getLicencie().getNumLicence() }}</p>
 
     {{ form_start(form) }}
     
-    <input id="email" name="email" value="{{ email }}"/>
+    <input id="email" name="email" value="{{ user.getEmail() }}"/>
     {{ form_widget(form) }}
 
     <h2>Nuites</h2>
