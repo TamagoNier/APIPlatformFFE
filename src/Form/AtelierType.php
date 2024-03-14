@@ -19,6 +19,9 @@ class AtelierType extends AbstractType
             ])
             ->add('nbPlacesMaxi', IntegerType::class,[
                 'required' => true,
+                'attr' => [
+                    'min' => 0
+                ]
             ])
         ;
     }

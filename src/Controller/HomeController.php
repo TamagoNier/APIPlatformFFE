@@ -8,9 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-
 use App\Entity\Atelier;
 use App\Entity\Theme;
 use App\Entity\Vacation;
@@ -18,12 +16,10 @@ use App\Form\AtelierType;
 use App\Form\VacationType;
 use App\Form\ThemeType;
 use App\Form\DemandeInscriptionType;
-use App\Form\NuiteType;
 use App\Entity\Inscription;
 use \App\Entity\Nuite;
 use App\Entity\Proposer;
 use App\Entity\Hotel;
-
 
 class HomeController extends AbstractController {
 
@@ -44,6 +40,8 @@ class HomeController extends AbstractController {
 
     #[Route('/formajout', name: 'form_ajout')]
     public function formAjout(Request $r): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        
         $choice = $r->request->get('choice');
 
         switch ($choice) {
@@ -63,6 +61,8 @@ class HomeController extends AbstractController {
 
     #[Route('/addvacation', name: 'add_vacation')]
     public function addVacation(Request $r, EntityManagerInterface $em): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        
         $idVacation = $r->query->get('idVacation');
 
         if ($idVacation) {
@@ -70,7 +70,6 @@ class HomeController extends AbstractController {
         } else {
             $vacation = new Vacation();
         }
-
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($r);
 
@@ -87,7 +86,6 @@ class HomeController extends AbstractController {
                 return $this->redirectToRoute('app_home');
             }
         }
-
         return $this->render("home/form.html.twig", [
                     'form' => $form->createView(),
         ]);
@@ -95,6 +93,8 @@ class HomeController extends AbstractController {
 
     #[Route('/addtheme', name: 'add_theme')]
     public function addTheme(Request $r, EntityManagerInterface $em): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        
         $theme = new Theme();
         $form = $this->createForm(ThemeType::class, $theme);
         $form->handleRequest($r);
@@ -111,6 +111,8 @@ class HomeController extends AbstractController {
 
     #[Route('/addatelier', name: 'add_atelier')]
     public function addAtelier(Request $r, EntityManagerInterface $em): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        
         $atelier = new Atelier();
         $form = $this->createForm(AtelierType::class, $atelier);
         $form->handleRequest($r);
@@ -127,6 +129,7 @@ class HomeController extends AbstractController {
 
     #[Route('/choisiratelier', name: 'choisir_atelier')]
     public function choisirAtelier(EntityManagerInterface $em): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
         $ateliers = $em->getRepository(Atelier::class)->findAteliersWithVacations();
 
         return $this->render("home/choisirAtelier.html.twig", [
@@ -136,6 +139,8 @@ class HomeController extends AbstractController {
 
     #[Route('choisirvacation', name: 'choisir_vacation')]
     public function choisirVacation(Request $r, EntityManagerInterface $em): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
+        
         $idAtelier = $r->query->get('idAtelier');
         $atelier = $em->getRepository(Atelier::class)->findOneById($idAtelier);
 
@@ -149,18 +154,18 @@ class HomeController extends AbstractController {
     #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
         $user = $this->getUser();
-        
+
         $fraisInscription = $this->getParameter('fraisInscription');
         $tarifRepas = $this->getParameter('tarifRepas');
-        
+
         $form = $this->createForm(DemandeInscriptionType::class);
         $form->handleRequest($r);
 
         $proposer = $em->getRepository(Proposer::class)->findAll();
         $hotels = $em->getRepository(Hotel::class)->findAll();
-        
+
         $total = $fraisInscription;
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $inscription = new Inscription();
             $inscription->setDateInscription(new \DateTime());
@@ -169,7 +174,7 @@ class HomeController extends AbstractController {
 
             $inscription->addRestaurations($formData['restauration']);
             $total += $tarifRepas * count($formData['restauration']);
-            
+
             $inscription->addAteliers($formData['ateliers']);
 
             $email = $r->request->get('email');
@@ -195,36 +200,38 @@ class HomeController extends AbstractController {
                 $nuite->setDateNuitee(new \DateTime('2024-09-07'));
                 $nuite->setHotel($nuitDeux->getHotel());
                 $nuite->setCategorie($nuitDeux->getCategorie());
-                
+
                 $total += $nuitDeux->getTarifNuite();
                 $inscription->addNuite($nuite);
             }
-            
+
             $em->persist($inscription);
             $em->flush();
-            
-                      
+
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
-                    ->to('egor-gut@outlook.fr')
+                    ->to($email)
+                    //->to('egor-gut@outlook.fr')
                     ->subject("Total de l'inscription")
                     ->htmlTemplate('email/totalInscription.html.twig')
                     ->context([
-                        'user'=>$user,
-                        'total'=> $total
+                'user' => $user,
+                'total' => $total
                     ])
-                    ;
-            
+            ;
+
             $mailer->send($emailTotal);
-            
+
             return $this->redirectToRoute('app_home');
-            }
+        }
 
         return $this->render('home/demandeInscription.html.twig', [
                     'form' => $form->createView(),
                     'user' => $user,
                     'proposer' => $proposer,
-                    'hotels' => $hotels
+                    'hotels' => $hotels,
+                    'tarif_repas' => $this->getParameter('tarifRepas'),
+                    'frais_inscri' => $this->getParameter('fraisInscription')
         ]);
     }
 }
