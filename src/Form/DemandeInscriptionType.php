@@ -8,35 +8,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Restauration;
 use App\Entity\Atelier;
-use App\Entity\Hotel;
-use App\Entity\CategorieChambre;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
-class DemandeInscriptionType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+class DemandeInscriptionType extends AbstractType {
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            ->add('restauration', EntityType::class, [
+                ->add('restauration', EntityType::class, [
                     'class' => Restauration::class, // Entité Atelier
                     'choice_label' => 'typeRepas', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
                     'required' => false,
-            ])
-            ->add('ateliers', EntityType::class, [
+                ])
+                ->add('ateliers', EntityType::class, [
                     'class' => Atelier::class, // Entité Atelier
+//                    'query_builder' => function (EntityRepository $er) {
+//                        $qb = $er->createQueryBuilder('a');
+//                        $qb->innerJoin('a.insciptions', 'i')
+//                        ->where('a.nbPlacesMaxi > COUNT(i.id)');
+//                        return $qb;
+//                    },
                     'choice_label' => 'libelle', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
                     'required' => true,
-            ])
+                ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            // Configure your form options here
+                // Configure your form options here
         ]);
     }
 }
