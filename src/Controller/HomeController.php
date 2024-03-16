@@ -183,7 +183,7 @@ class HomeController extends AbstractController {
 
             $nuitsId =[];
             if($r->request->get('sept6_7')){
-                array_push($nuitsId,r->request->get('sept6_7'));
+                array_push($nuitsId,$r->request->get('sept6_7'));
             }
             if($r->request->get('sept7_8')){
                 array_push($nuitsId,$r->request->get('sept7_8'));
@@ -211,8 +211,8 @@ class HomeController extends AbstractController {
                     ->from('egor_gut@outlook.fr')
                     ->to($email)
                     //->to('egor-gut@outlook.fr')
-                    ->subject("Total de l'inscription")
-                    ->htmlTemplate('email/totalInscription.html.twig')
+                    ->subject("Inscription mise en attente")
+                    ->htmlTemplate('email/inscriptionAttente.html.twig')
                     ->context([
                 'user' => $user,
                 'total' => $total,
@@ -235,7 +235,7 @@ class HomeController extends AbstractController {
     }
     
     #[Route('validerinscription', name: 'valider_inscription')]
-    public function validerInscription()
+    public function validerInscription(Request $r, EntityManagerInterface $em)
     {
         
     }

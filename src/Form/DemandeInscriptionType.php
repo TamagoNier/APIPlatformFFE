@@ -33,7 +33,6 @@ class DemandeInscriptionType extends AbstractType {
                     'choice_label' => 'libelle', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
-                    'required' => true,
                 ])
         ;
     }

@@ -5,16 +5,10 @@
     <p>prenom : {{ user.getLicencie().getPrenom() }}</p>
     <p>numéro de licence : {{ user.getLicencie().getNumLicence() }}</p>
 
-    {% for message in app.flashes('valider') %}
-        <div class="flash-valider">
-            <h3>{{ message }}</h3>
-        </div>
-    {% endfor %}
-
     {{ form_start(form) }}
 
     <input id="email" name="email" value="{{ user.getEmail() }}"/>
-    
+
     {{ form_widget(form) }}
 
     <h2>Nuites</h2>
@@ -47,7 +41,15 @@
         </div>
     </div>
 
-    <button type="submit">Submit</button>
-    <button type="reset">Reset</button>
+    {% if app.session.flashbag.peekAll()|length > 0  %}
+        {% for message in app.flashes('valider') %}
+            <div class="flash-valider">
+                <h3>{{ message }}</h3>
+            </div>
+        {% endfor %}
+    {% else %}
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    {% endif %}
     {{ form_end(form) }}
 {% endblock %}
