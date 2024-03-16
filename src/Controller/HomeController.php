@@ -208,6 +208,10 @@ class HomeController extends AbstractController {
             $em->persist($inscription);
             $em->flush();
 
+            $user->setInscription($inscription);
+            $em->persist($user);
+            $em->flush();
+            
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
                     ->to($email)
