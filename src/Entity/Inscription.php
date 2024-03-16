@@ -28,6 +28,10 @@ class Inscription {
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class, cascade:["persist"])]
     private Collection $nuites;
 
+    #[Assert\Choice(['En Attente', 'Valide'])]
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct() {
         $this->nuites = new ArrayCollection();
         $this->restauration = new ArrayCollection();
@@ -130,6 +134,18 @@ class Inscription {
         foreach ($restaurations as $restauration) {
             $this->addRestauration($restauration);
         }
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
         return $this;
     }
 }

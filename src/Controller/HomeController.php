@@ -168,6 +168,8 @@ class HomeController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $inscription = new Inscription();
+            $inscription->setStatus('En Attente');
+            
             $inscription->setDateInscription(new \DateTime());
 
             $formData = $form->getData();
@@ -179,29 +181,22 @@ class HomeController extends AbstractController {
 
             $email = $r->request->get('email');
 
-            $nuitUnId = $r->request->get('sept6_7');
-            $nuitDeuxId = $r->request->get('sept7_8');
-
-            if ($nuitUnId) {
-                $nuitUn = $em->getRepository(Proposer::class)->findOneById($nuitUnId);
+            $nuitsId =[];
+            if($r->request->get('sept6_7')){
+                array_push($nuitsId,r->request->get('sept6_7'));
+            }
+            if($r->request->get('sept7_8')){
+                array_push($nuitsId,$r->request->get('sept7_8'));
+            }
+            foreach($nuitsId as $nuitId) {
+                $nuit = $em->getRepository(Proposer::class)->findOneById($nuitId);
 
                 $nuite = new Nuite();
                 $nuite->setDateNuitee(new \DateTime('2024-09-06'));
-                $nuite->setHotel($nuitUn->getHotel());
-                $nuite->setCategorie($nuitUn->getCategorie());
+                $nuite->setHotel($nuit->getHotel());
+                $nuite->setCategorie($nuit->getCategorie());
 
-                $total += $nuitUn->getTarifNuite();
-                $inscription->addNuite($nuite);
-            }
-            if ($nuitDeuxId) {
-                $nuitDeux = $em->getRepository(Proposer::class)->findOneById($nuitDeuxId);
-
-                $nuite = new Nuite();
-                $nuite->setDateNuitee(new \DateTime('2024-09-07'));
-                $nuite->setHotel($nuitDeux->getHotel());
-                $nuite->setCategorie($nuitDeux->getCategorie());
-
-                $total += $nuitDeux->getTarifNuite();
+                $total += $nuit->getTarifNuite();
                 $inscription->addNuite($nuite);
             }
 
@@ -220,13 +215,15 @@ class HomeController extends AbstractController {
                     ->htmlTemplate('email/totalInscription.html.twig')
                     ->context([
                 'user' => $user,
-                'total' => $total
+                'total' => $total,
+                'ateliers' => $inscription->getAteliers(),
                     ])
             ;
 
             $mailer->send($emailTotal);
 
-            return $this->redirectToRoute('app_home');
+            $this->addFlash('valider', 'Le total est : '. $total);
+            //return $this->redirectToRoute('app_home');
         }
 
         return $this->render('home/demandeInscription.html.twig', [
@@ -234,8 +231,12 @@ class HomeController extends AbstractController {
                     'user' => $user,
                     'proposer' => $proposer,
                     'hotels' => $hotels,
-                    'tarif_repas' => $this->getParameter('tarifRepas'),
-                    'frais_inscri' => $this->getParameter('fraisInscription')
         ]);
+    }
+    
+    #[Route('validerinscription', name: 'valider_inscription')]
+    public function validerInscription()
+    {
+        
     }
 }

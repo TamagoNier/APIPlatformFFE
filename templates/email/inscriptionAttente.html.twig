@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p> Bonjour, {{ user.getLicencie().getNom() }} {{ user.getLicencie().getPrenom() }} <p>
-    <p> Merci pour votre inscription au congrés !</p>
-    <div>
+    <p>Bonjour, {{ user.getLicencie().getNom() }} {{ user.getLicencie().getPrenom() }} <p>
+    <p>Votre inscription a bien étée mise en attente. </p>
+     <div>
         Ateliers choisis :
         <ul>
         {% for atelier in ateliers %}

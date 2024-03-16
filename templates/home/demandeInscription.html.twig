@@ -5,9 +5,16 @@
     <p>prenom : {{ user.getLicencie().getPrenom() }}</p>
     <p>numéro de licence : {{ user.getLicencie().getNumLicence() }}</p>
 
+    {% for message in app.flashes('valider') %}
+        <div class="flash-valider">
+            <h3>{{ message }}</h3>
+        </div>
+    {% endfor %}
+
     {{ form_start(form) }}
-    
+
     <input id="email" name="email" value="{{ user.getEmail() }}"/>
+    
     {{ form_widget(form) }}
 
     <h2>Nuites</h2>
