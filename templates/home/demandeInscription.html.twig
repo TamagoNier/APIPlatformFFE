@@ -41,15 +41,7 @@
         </div>
     </div>
 
-    {% if app.session.flashbag.peekAll()|length > 0  %}
-        {% for message in app.flashes('valider') %}
-            <div class="flash-valider">
-                <h3>{{ message }}</h3>
-            </div>
-        {% endfor %}
-    {% else %}
-        <button type="submit">Submit</button>
-        <button type="reset">Reset</button>
-    {% endif %}
+        <button type="submit">Confirmer les choix</button>
+        <button type="reset">Supprimer</button>
     {{ form_end(form) }}
 {% endblock %}

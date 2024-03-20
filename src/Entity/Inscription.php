@@ -28,9 +28,8 @@ class Inscription {
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class, cascade:["persist"])]
     private Collection $nuites;
 
-    #[Assert\Choice(['En Attente', 'Valide'])]
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateValidation = null;
 
     public function __construct() {
         $this->nuites = new ArrayCollection();
@@ -137,14 +136,14 @@ class Inscription {
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getDateValidation(): ?\DateTimeInterface
     {
-        return $this->status;
+        return $this->dateValidation;
     }
 
-    public function setStatus(string $status): static
+    public function setDateValidation(?\DateTimeInterface $dateValidation): static
     {
-        $this->status = $status;
+        $this->dateValidation = $dateValidation;
 
         return $this;
     }

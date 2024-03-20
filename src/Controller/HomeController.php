@@ -154,7 +154,12 @@ class HomeController extends AbstractController {
     #[Route('demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
         $user = $this->getUser();
-
+        
+        $inscription = $user->getInscription();
+        if($inscription){
+            return $this->redirectToRoute('valider_inscription');
+        }
+        
         $fraisInscription = $this->getParameter('fraisInscription');
         $tarifRepas = $this->getParameter('tarifRepas');
 
@@ -168,7 +173,6 @@ class HomeController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $inscription = new Inscription();
-            $inscription->setStatus('En Attente');
             
             $inscription->setDateInscription(new \DateTime());
 
@@ -222,8 +226,7 @@ class HomeController extends AbstractController {
 
             $mailer->send($emailTotal);
 
-            $this->addFlash('valider', 'Le total est : '. $total);
-            //return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('valider_inscription');
         }
 
         return $this->render('home/demandeInscription.html.twig', [
@@ -237,6 +240,10 @@ class HomeController extends AbstractController {
     #[Route('validerinscription', name: 'valider_inscription')]
     public function validerInscription(Request $r, EntityManagerInterface $em)
     {
+        $user = $this->getUser();
         
+        return $this->render('/home/infoInscription.html.twig', [
+            'inscription' => $user->getInscription()
+        ]);
     }
 }
