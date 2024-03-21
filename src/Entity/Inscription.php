@@ -25,7 +25,7 @@ class Inscription {
     #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'insciptions')]
     private Collection $ateliers;
 
-    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class, cascade:["persist"])]
+    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class)]
     private Collection $nuites;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

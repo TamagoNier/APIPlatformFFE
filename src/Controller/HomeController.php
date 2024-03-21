@@ -199,7 +199,9 @@ class HomeController extends AbstractController {
                 $nuite->setDateNuitee(new \DateTime('2024-09-06'));
                 $nuite->setHotel($nuit->getHotel());
                 $nuite->setCategorie($nuit->getCategorie());
-
+                $nuite->setInscription($inscription);
+                $em->persist($nuite);
+                
                 $total += $nuit->getTarifNuite();
                 $inscription->addNuite($nuite);
             }
@@ -242,8 +244,17 @@ class HomeController extends AbstractController {
     {
         $user = $this->getUser();
         
+        $inscription = $user->getInscription();
+        $hotels = [];
+        foreach ($inscription->getNuites() as $nuite){
+            array_push($hotels, $nuite->getHotel());
+        }
+        $restaurations = $inscription->getRestauration();
         return $this->render('/home/infoInscription.html.twig', [
-            'inscription' => $user->getInscription()
+            'inscription' => $inscription,
+            'hotels' => $hotels,
+            'restaurations' => $restaurations,
+            
         ]);
     }
 }

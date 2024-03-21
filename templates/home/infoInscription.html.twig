@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <p> Status de l'inscription :
+    {% if inscription.getDateValidation() %}
+        Validé
+    {% else %}
+        En Attente
+    {% endif %}
+    </p>
+    <p>Retaurations :
+        {% if restaurations %}
+            {% for resto in restaurations %}
+                {{ resto.getTypeRepas }}
+            {% endfor %}
+        {% else %}
+            Pas de restauration
+        {% endif %}
+    </p>
+    <p>
+    </p>
+    <p> Hotels : 
+            {% for hotel in hotels %}
+                {{ hotel.getNom() }}
+            {% endfor %}
+    </p>
+    <p> Total :
+    </p>
 {{ dump(inscription) }}
 {% endblock %}
