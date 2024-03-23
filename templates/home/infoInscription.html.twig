@@ -2,11 +2,11 @@
 
 {% block body %}
     <p> Status de l'inscription :
-    {% if inscription.getDateValidation() %}
-        Validé
-    {% else %}
-        En Attente
-    {% endif %}
+        {% if inscription.getDateValidation() %}
+            Validé
+        {% else %}
+            En Attente
+        {% endif %}
     </p>
     <p>Retaurations :
         {% if restaurations %}
@@ -19,12 +19,24 @@
     </p>
     <p>
     </p>
-    <p> Hotels : 
-            {% for hotel in hotels %}
-                {{ hotel.getNom() }}
-            {% endfor %}
+    <div>
+        <p>
+            Nuites : 
+        </p>
+        <ul>
+            {% for nuite in nuites %}
+                <li> Hotel : {{ nuite.getHotel().getNom() }} <br> Chambre : {{ nuite.getCategorie.getLibelleCategorie() }}</li>
+                {% endfor %}
+        </ul>
+    </div>
+    <p> Total : {{ total }}
     </p>
-    <p> Total :
-    </p>
-{{ dump(inscription) }}
+    
+    {% if not inscription.getDateValidation() %}
+    <form action="{{ path('valider_inscription') }}" method='post'>
+        <input type="hidden" name="inscriptionValide" value="{{ inscription.getId() }}"/>
+        <button type="submit">Valider l'inscription</button>
+    </form>
+    {% endif %}
+    {{ dump(inscription) }}
 {% endblock %}

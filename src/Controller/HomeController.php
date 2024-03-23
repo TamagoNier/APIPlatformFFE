@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Services\ServicesMdl;
 use App\Entity\Atelier;
 use App\Entity\Theme;
 use App\Entity\Vacation;
@@ -206,10 +207,9 @@ class HomeController extends AbstractController {
                 $inscription->addNuite($nuite);
             }
 
-            $em->persist($inscription);
-            $em->flush();
-
             $user->setInscription($inscription);
+            
+            $em->persist($inscription);
             $em->persist($user);
             $em->flush();
             
@@ -243,17 +243,26 @@ class HomeController extends AbstractController {
     public function validerInscription(Request $r, EntityManagerInterface $em)
     {
         $user = $this->getUser();
-        
         $inscription = $user->getInscription();
-        $hotels = [];
-        foreach ($inscription->getNuites() as $nuite){
-            array_push($hotels, $nuite->getHotel());
+        
+        if($r->request->get('inscriptionValide')){
+            $inscription->setDateValidation(new \DateTime());
+            $em->persist($inscription);
+            $em->flush();
         }
+        
+        $fraisInscription = $this->getParameter('fraisInscription');
+        $tarifRepas = $this->getParameter('tarifRepas');
+        $total = 0;
+        
+        $nuites = $inscription->getNuites();
+        
         $restaurations = $inscription->getRestauration();
         return $this->render('/home/infoInscription.html.twig', [
             'inscription' => $inscription,
-            'hotels' => $hotels,
+            'nuites' => $nuites,
             'restaurations' => $restaurations,
+            'total' => $total,
             
         ]);
     }
