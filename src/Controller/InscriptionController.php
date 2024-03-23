@@ -18,14 +18,14 @@ use App\Entity\Hotel;
 #[Route('/inscription', name: 'inscription_')]
 class InscriptionController extends AbstractController
 {   
-    #[Route('demandeinscription', name: 'demande_inscription')]
+    #[Route('/demandeinscription', name: 'demande_inscription')]
     public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
         $user = $this->getUser();
         
-        $inscription = $user->getInscription();
-        if($inscription){
-            return $this->redirectToRoute('valider_inscription');
-        }
+//        $inscription = $user->getInscription();
+//        if($inscription){
+//            return $this->redirectToRoute('inscription_valider_inscription');
+//        }
         
         $fraisInscription = $this->getParameter('fraisInscription');
         $tarifRepas = $this->getParameter('tarifRepas');
@@ -105,7 +105,7 @@ class InscriptionController extends AbstractController
         ]);
     }
     
-    #[Route('validerinscription', name: 'valider_inscription')]
+    #[Route('/validerinscription', name: 'valider_inscription')]
     public function validerInscription(Request $r, EntityManagerInterface $em)
     {
         $user = $this->getUser();

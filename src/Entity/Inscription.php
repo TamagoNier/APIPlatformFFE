@@ -22,7 +22,7 @@ class Inscription {
     #[ORM\ManyToMany(targetEntity: Restauration::class)]
     private Collection $restauration;
 
-    #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'insciptions')]
+    #[ORM\ManyToMany(targetEntity: Atelier::class, mappedBy: 'inscriptions')]
     private Collection $ateliers;
 
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Nuite::class)]
@@ -108,7 +108,7 @@ class Inscription {
     public function addAtelier(Atelier $atelier): static {
         if (!$this->ateliers->contains($atelier)) {
             $this->ateliers->add($atelier);
-            $atelier->addInsciption($this);
+            $atelier->addInscription($this);
         }
 
         return $this;
@@ -116,7 +116,7 @@ class Inscription {
 
     public function removeAtelier(Atelier $atelier): static {
         if ($this->ateliers->removeElement($atelier)) {
-            $atelier->removeInsciption($this);
+            $atelier->removeInscription($this);
         }
 
         return $this;

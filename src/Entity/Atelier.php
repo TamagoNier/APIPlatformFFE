@@ -22,7 +22,7 @@ class Atelier
     private ?int $nbPlacesMaxi = null;
 
     #[ORM\ManyToMany(targetEntity: Inscription::class, inversedBy: 'ateliers')]
-    private Collection $insciptions;
+    private Collection $inscriptions;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'ateliers')]
     private Collection $themes;
@@ -32,7 +32,7 @@ class Atelier
 
     public function __construct()
     {
-        $this->insciptions = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
         $this->themes = new ArrayCollection();
         $this->vacations = new ArrayCollection();
     }
@@ -69,23 +69,23 @@ class Atelier
     /**
      * @return Collection<int, Inscription>
      */
-    public function getInsciptions(): Collection
+    public function getInscriptions(): Collection
     {
-        return $this->insciptions;
+        return $this->inscriptions;
     }
 
-    public function addInsciption(Inscription $insciption): static
+    public function addInscription(Inscription $inscription): static
     {
-        if (!$this->insciptions->contains($insciption)) {
-            $this->insciptions->add($insciption);
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions->add($inscription);
         }
 
         return $this;
     }
 
-    public function removeInsciption(Inscription $insciption): static
+    public function removeInscription(Inscription $inscription): static
     {
-        $this->insciptions->removeElement($insciption);
+        $this->inscriptions->removeElement($inscription);
 
         return $this;
     }
@@ -140,9 +140,6 @@ class Atelier
         return $this;
     }
 
-    /**
-     * @return Collection<int, Vacation>
-     */
     public function getVacations(): Collection
     {
         return $this->vacations;

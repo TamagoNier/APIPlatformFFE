@@ -24,15 +24,15 @@ class DemandeInscriptionType extends AbstractType {
                 ])
                 ->add('ateliers', EntityType::class, [
                     'class' => Atelier::class, // Entité Atelier
-//                    'query_builder' => function (EntityRepository $er) {
-//                        $qb = $er->createQueryBuilder('a');
-//                        $qb->innerJoin('a.insciptions', 'i')
-//                        ->where('a.nbPlacesMaxi > COUNT(i.id)');
-//                        return $qb;
-//                    },
                     'choice_label' => 'libelle', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
                     'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
                     'expanded' => true,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('a')
+                            ->leftJoin('a.inscriptions', 'i')
+                            ->groupBy('a.id')
+                            ->having('COUNT(i.id) < a.nbPlacesMaxi');
+                    },
                 ])
         ;
     }

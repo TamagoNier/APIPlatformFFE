@@ -15,8 +15,8 @@ use App\Form\VacationType;
 use App\Form\ThemeType;
 
 #[Route('/user', name: 'user_')]
-class UserController extends AbstractController
-{
+class UserController extends AbstractController {
+
     #[Route('/choixform', name: 'choix_form')]
     public function choixForm(): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
@@ -26,7 +26,7 @@ class UserController extends AbstractController
     #[Route('/formajout', name: 'form_ajout')]
     public function formAjout(Request $r): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
-        
+
         $choice = $r->request->get('choice');
 
         switch ($choice) {
@@ -47,7 +47,7 @@ class UserController extends AbstractController
     #[Route('/addvacation', name: 'add_vacation')]
     public function addVacation(Request $r, EntityManagerInterface $em): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
-        
+
         $idVacation = $r->query->get('idVacation');
 
         if ($idVacation) {
@@ -65,7 +65,6 @@ class UserController extends AbstractController
             if ($dateheureDebut > $dateheureFin) {
                 throw new \Exception('La date de fin doit etre inferieure à la date de début !');
             } else {
-
                 $em->persist($vacation);
                 $em->flush();
                 return $this->redirectToRoute('app_home');
@@ -79,7 +78,7 @@ class UserController extends AbstractController
     #[Route('/addtheme', name: 'add_theme')]
     public function addTheme(Request $r, EntityManagerInterface $em): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
-        
+
         $theme = new Theme();
         $form = $this->createForm(ThemeType::class, $theme);
         $form->handleRequest($r);
@@ -97,7 +96,7 @@ class UserController extends AbstractController
     #[Route('/addatelier', name: 'add_atelier')]
     public function addAtelier(Request $r, EntityManagerInterface $em): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
-        
+
         $atelier = new Atelier();
         $form = $this->createForm(AtelierType::class, $atelier);
         $form->handleRequest($r);
@@ -122,10 +121,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('choisirvacation', name: 'choisir_vacation')]
+    #[Route('/choisirvacation', name: 'choisir_vacation')]
     public function choisirVacation(Request $r, EntityManagerInterface $em): Response {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'ROLE USER necessaire');
-        
+
         $idAtelier = $r->query->get('idAtelier');
         $atelier = $em->getRepository(Atelier::class)->findOneById($idAtelier);
 
