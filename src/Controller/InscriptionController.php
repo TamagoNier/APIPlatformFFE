@@ -15,7 +15,7 @@ use \App\Entity\Nuite;
 use App\Entity\Proposer;
 use App\Entity\Hotel;
 
-
+#[Route('/inscription', name: 'inscription_')]
 class InscriptionController extends AbstractController
 {   
     #[Route('demandeinscription', name: 'demande_inscription')]
@@ -94,7 +94,7 @@ class InscriptionController extends AbstractController
 
             $mailer->send($emailTotal);
 
-            return $this->redirectToRoute('valider_inscription');
+            return $this->redirectToRoute('inscription_valider_inscription');
         }
 
         return $this->render('inscription/demandeInscription.html.twig', [
@@ -136,8 +136,7 @@ class InscriptionController extends AbstractController
             'inscription' => $inscription,
             'nuites' => $nuites,
             'restaurations' => $restaurations,
-            'total' => $total,
-            
+            'total' => $total,        
         ]);
     }
 }

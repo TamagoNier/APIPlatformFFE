@@ -33,7 +33,7 @@
     </p>
     
     {% if not inscription.getDateValidation() %}
-    <form action="{{ path('valider_inscription') }}" method='post'>
+    <form action="{{ path('inscription_valider_inscription') }}" method='post'>
         <input type="hidden" name="inscriptionValide" value="{{ inscription.getId() }}"/>
         <button type="submit">Valider l'inscription</button>
     </form>

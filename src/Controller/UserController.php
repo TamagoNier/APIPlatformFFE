@@ -31,15 +31,15 @@ class UserController extends AbstractController
 
         switch ($choice) {
             case 'vacation' :
-                return $this->redirectToRoute('add_vacation');
+                return $this->redirectToRoute('user_add_vacation');
                 break;
 
             case 'theme':
-                return $this->redirectToRoute('add_theme');
+                return $this->redirectToRoute('user_add_theme');
                 break;
 
             case 'atelier':
-                return $this->redirectToRoute('add_atelier');
+                return $this->redirectToRoute('user_add_atelier');
                 break;
         }
     }
