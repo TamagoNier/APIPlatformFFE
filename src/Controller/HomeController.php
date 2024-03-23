@@ -253,8 +253,16 @@ class HomeController extends AbstractController {
         
         $fraisInscription = $this->getParameter('fraisInscription');
         $tarifRepas = $this->getParameter('tarifRepas');
-        $total = 0;
         
+        $total = $fraisInscription + $tarifRepas*count($inscription->getRestauration());
+        
+        foreach($inscription->getNuites() as $nuite){
+            $propose = $em->getRepository(Proposer::class)->findOneBy(
+                    ['hotel' => $nuite->getHotel(),
+                    'categorie' => $nuite->getCategorie()->getId()]
+            );
+            $total += $propose->getTarifNuite();
+        }
         $nuites = $inscription->getNuites();
         
         $restaurations = $inscription->getRestauration();
