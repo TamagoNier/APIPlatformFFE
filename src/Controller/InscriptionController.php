@@ -22,10 +22,10 @@ class InscriptionController extends AbstractController
     public function demandeInscription(Request $r, EntityManagerInterface $em, MailerInterface $mailer): Response {
         $user = $this->getUser();
         
-//        $inscription = $user->getInscription();
-//        if($inscription){
-//            return $this->redirectToRoute('inscription_valider_inscription');
-//        }
+        $inscription = $user->getInscription();
+        if($inscription){
+            return $this->redirectToRoute('inscription_valider_inscription');
+        }
         
         $fraisInscription = $this->getParameter('fraisInscription');
         $tarifRepas = $this->getParameter('tarifRepas');
