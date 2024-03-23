@@ -80,7 +80,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // guarantee every user at least has ROLE_INSCRIT
         $roles[] = 'ROLE_INSCRIT';
 
         return array_unique($roles);
