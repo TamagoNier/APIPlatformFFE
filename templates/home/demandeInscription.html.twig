@@ -33,7 +33,7 @@
                 <div style="grid-column: 1">
                     <p>{{ hotel.getNom() }}</p>
                     {% for tarif in hotel.getTarifs() %}
-                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }}</label>
+                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }} : {{ tarif.getTarifNuite() }}€</label>
                         <input type="radio" id="chambre{{ tarif.getId() }}" name="sept7_8" value="{{ tarif.getId() }}"/>
                     {% endfor %}
                 </div>
