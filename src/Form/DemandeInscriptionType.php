@@ -23,9 +23,9 @@ class DemandeInscriptionType extends AbstractType {
                     'required' => false,
                 ])
                 ->add('ateliers', EntityType::class, [
-                    'class' => Atelier::class, // Entité Atelier
-                    'choice_label' => 'libelle', // Remplacez 'nom' par le champ que vous souhaitez afficher dans la liste déroulante
-                    'multiple' => true, // Si vous voulez permettre la sélection de plusieurs ateliers
+                    'class' => Atelier::class,
+                    'choice_label' => 'libelle', 
+                    'multiple' => true, 
                     'expanded' => true,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('a')
