@@ -1,0 +1,12 @@
+#baniere {
+    display: block;
+    margin: auto;
+}
+#fond-baniere{
+    background-color: #2199e8;
+}
+
+#logo{
+    display: block;
+    margin: auto;
+}

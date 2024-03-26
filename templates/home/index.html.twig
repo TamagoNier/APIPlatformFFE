@@ -1,20 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/maisondesligues/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/maisondesligues/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div>
+        <div id="fond-baniere">
+            <img id="baniere" src='{{ asset('images/fond.jpg') }}'>
+        </div>
+    </div>
+    <div class="card text-white bg-warning mb-3">
+        <div class="card-header">Infos :</div>
+        <div class="card-body">
+            <h5 class="card-title">6eme assises d'escrime</h5>
+            <p class="card-text">Dates : samedi 7 et dimanche 8 septembre 2024. Possibilité de réserver l'hôtel à partir du vendredi 6 septembre.</p>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h3>Formules d'hébergement</h3>
+                <h5>Ibis Budget Lille Gares Vieux-Lille</h5>
+                <p>Tarifs négociés :</p>
+                <ul>
+                    <li>Single : 95€ la nuit</li>
+                    <li>Double : 105€ la nuit</li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <h5>Ibis Budget Lille Gares Vieux-Lille</h5>
+                <p>Tarifs négociés :</p>
+                <ul>
+                    <li>Single : 70€ la nuit</li>
+                    <li>Double : 80€ la nuit</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <h5 class="card-title">Restauration</h5>
+            <p>Tarif repas:</p>
+            <ul>
+                <li> 38€ le repas</li>
+            </ul>
+            <p>Possibilités:s</p>
+            <ul>
+                <li>Samedi midi</li>
+                <li>Samedi soir</li>
+                <li>Dimanche midi</li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
