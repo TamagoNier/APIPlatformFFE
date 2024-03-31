@@ -10,14 +10,14 @@
     <h1>Mot de passe oublié</h1>
 
     {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Entrez votre email, si il existe un compte associé
-                un email vous sera envoyé
-            </small>
-        </div>
+        {{ form_row(requestForm.email, {'attr': {'class': 'form-control'}})  }}
+    <div>
+        <small>
+            Entrez votre email, si il existe un compte associé
+            un email vous sera envoyé
+        </small>
+    </div>
 
-        <button class="btn btn-primary">Send password reset email</button>
+    <button class="btn btn-primary">Send password reset email</button>
     {{ form_end(requestForm) }}
 {% endblock %}

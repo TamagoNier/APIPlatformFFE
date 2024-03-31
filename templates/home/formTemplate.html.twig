@@ -2,9 +2,12 @@
 
 {% block body %}
     {{ parent() }}
+    
+    <div class='form-control form-user'>
     {{ form_start(form) }}
     {{ form_errors(form) }}
     {{ form_widget(form) }}
-    <button type="submit">Submit</button>
+    <button class='btn btn-warning' type="submit">Submit</button>
     {{ form_end(form) }}
+    </div>
 {% endblock %}

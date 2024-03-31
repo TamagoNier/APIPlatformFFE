@@ -2,7 +2,14 @@
 
 {% block body %}
     {{ parent() }}
-    {% for vacation in vacations %}
-        <a href="{{ path('add_vacation', {'idVacation': vacation.id }) }}">{{ vacation.id }}</a><br>
-    {% endfor %}
+    <div class="container">
+        <h3>Liste des Vacations</h3>
+        <div class="list-group">
+            {% for vacation in vacations %}
+                <a href="{{ path('user_add_vacation', {'idVacation': vacation.id }) }}" class="list-group-item list-group-item-action">
+                    {{ vacation.getDateHeureDebut()|date('Y-m-d H:i:s') }} - {{ vacation.getDateHeureFin()|date('Y-m-d H:i:s') }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

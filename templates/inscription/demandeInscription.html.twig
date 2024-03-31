@@ -2,47 +2,70 @@
 
 {% block body %}
     {{ parent() }}
-    <p>nom : {{ user.getLicencie().getNom() }}</p>
-    <p>prenom : {{ user.getLicencie().getPrenom() }}</p>
-    <p>numéro de licence : {{ user.getLicencie().getNumLicence() }}</p>
+    <div class="container">
+        <h5>Nom : {{ user.getLicencie().getNom() }}</h5>
+        <h5>Prénom : {{ user.getLicencie().getPrenom() }}</h5>
+        <h5>Numéro de licence : {{ user.getLicencie().getNumLicence() }}</h5>
 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
 
-    <input id="email" name="email" value="{{ user.getEmail() }}"/>
-
-    {{ form_widget(form) }}
-
-    <h2>Nuites</h2>
-
-    <div>
-        <p>6 au 7 Septembre</p>
-        <div style="display: grid;">
-            {% for hotel in hotels %}
-                <div style="grid-column: 1">
-                    <p>{{ hotel.getNom() }}</p>
-                    {% for tarif in hotel.getTarifs() %}
-                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }} : {{ tarif.getTarifNuite() }}€</label>
-                        <input type="radio" id="chambre{{ tarif.getId() }}" name="sept6_7" value="{{ tarif.getId() }}"/>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div><br>
-
-        <p>7 au 8 Septembre</p>
-        <div style="display: grid;">
-            {% for hotel in hotels %}
-                <div style="grid-column: 1">
-                    <p>{{ hotel.getNom() }}</p>
-                    {% for tarif in hotel.getTarifs() %}
-                        <label for="chambre{{ tarif.getId() }}">{{ tarif.getCategorie().getLibelleCategorie() }} : {{ tarif.getTarifNuite() }}€</label>
-                        <input type="radio" id="chambre{{ tarif.getId() }}" name="sept7_8" value="{{ tarif.getId() }}"/>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input id="email" name="email" value="{{ user.getEmail() }}" class="form-control"/>
         </div>
-    </div>
 
-        <button type="submit">Confirmer les choix</button>
-        <button type="reset">Supprimer</button>
-    {{ form_end(form) }}
+        <div class="form-group">
+            {{ form_label(form.restauration, 'Restauration', {'attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.restauration, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.ateliers, 'Ateliers', {'attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.ateliers, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+
+        <h5>Nuites</h5>
+
+        <div class="row">
+            <div class="col">
+                <h3>6 au 7 Septembre</h3>
+                <div class="row">
+                    {% for hotel in hotels %}
+                        <div class="col">
+                            <p>{{ hotel.getNom() }}</p>
+                            {% for tarif in hotel.getTarifs() %}
+                                <div class="form-check">
+                                    <input type="radio" id="chambre{{ tarif.getId() }}" name="sept6_7" value="{{ tarif.getId() }}" class="form-check-input"/>
+                                    <label for="chambre{{ tarif.getId() }}" class="form-check-label">{{ tarif.getCategorie().getLibelleCategorie() }} : {{ tarif.getTarifNuite() }}€</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col">
+                <h3>7 au 8 Septembre</h3>
+                <div class="row">
+                    {% for hotel in hotels %}
+                        <div class="col">
+                            <p>{{ hotel.getNom() }}</p>
+                            {% for tarif in hotel.getTarifs() %}
+                                <div class="form-check">
+                                    <input type="radio" id="chambre{{ tarif.getId() }}" name="sept7_8" value="{{ tarif.getId() }}" class="form-check-input"/>
+                                    <label for="chambre{{ tarif.getId() }}" class="form-check-label">{{ tarif.getCategorie().getLibelleCategorie() }} : {{ tarif.getTarifNuite() }}€</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Confirmer les choix</button>
+            <button type="reset" class="btn btn-secondary">Supprimer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

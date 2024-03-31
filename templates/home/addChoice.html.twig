@@ -2,16 +2,22 @@
 
 {% block body %}
     {{ parent() }}
-<form action="{{ path('user_form_ajout') }}" method="post">
-    <label for="atelier">Atelier</label>
-    <input type="radio" name="choice" id="atelier" value="atelier">
 
-    <label for="vacation">Vacations</label>
-    <input type="radio" name="choice" id="vacation" value="vacation">
+    <form action="{{ path('user_form_ajout') }}" method="post" class='form-control form-user'>
+        <div class="form-check">
+            <label for="atelier" class="form-check-label">Atelier</label>
+            <input type="radio" class="form-check-input" name="choice" id="atelier" value="atelier">
+        </div>
+        <div class="form-check">
 
-    <label for="theme">Thème</label>
-    <input type="radio" name="choice" id="theme" value="theme">
+            <label for="vacation" class="form-check-label">Vacations</label>
+            <input type="radio" class="form-check-input" name="choice" id="vacation" value="vacation">
+        </div>
+        <div class="form-check">
 
-    <button type="submit">Soumettre</button>
-</form>
+            <label for="theme" class="form-check-label">Thème</label>
+            <input type="radio" class="form-check-input" name="choice" id="theme" value="theme">
+        </div>
+        <button type="submit" class="btn btn-warning">Soumettre</button>
+    </form>
 {% endblock %}

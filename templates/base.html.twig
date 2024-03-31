@@ -23,10 +23,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_choix_form') }}">Créer des ateliers, themes et vacations</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_choisir_atelier') }}">Modifier une vacation</a>
+                            </li>
                         {% endif %}
                         {% if is_granted('ROLE_INSCRIT') %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('inscription_demande_inscription') }}">S'inscrire</a>
+                                <a class="nav-link" href="{{ path('inscription_demande_inscription') }}">Demande d'inscription</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>

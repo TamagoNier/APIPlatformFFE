@@ -2,7 +2,12 @@
 
 {% block body %}
     {{ parent() }}
-    {% for atelier in ateliers %}
-        <a href="{{ path('choisir_vacation', {'idAtelier' : atelier.id }) }}">{{ atelier.libelle }}</a><br>
-    {% endfor %}
+    <div class="container">
+        <h3>Choisir l'atelier concerné</h3>
+        <div class="list-group">
+            {% for atelier in ateliers %}
+                <a href="{{ path('user_choisir_vacation', {'idAtelier' : atelier.id }) }}" class="list-group-item list-group-item-action">{{ atelier.libelle }}</a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

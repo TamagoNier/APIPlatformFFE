@@ -2,44 +2,50 @@
 
 {% block body %}
     {{ parent() }}
-    
-    <p> Status de l'inscription :
-        {% if inscription.getDateValidation() %}
-            Validé
-        {% else %}
-            En Attente
-        {% endif %}
-    </p>
-    <p>Retaurations :
-        {% if restaurations %}
-            {% for resto in restaurations %}
-                {{ resto.getTypeRepas }}
-            {% endfor %}
-        {% else %}
-            Pas de restauration
-        {% endif %}
-    </p>
-    <p>
-    </p>
-    <div>
-        <p>
-            Nuites : 
-        </p>
-        <ul>
-            {% for nuite in nuites %}
-                <li> Hotel : {{ nuite.getHotel().getNom() }} <br> Chambre : {{ nuite.getCategorie.getLibelleCategorie() }}</li>
+
+    <div class="container">
+        <h5>Status de l'inscription :
+            {% if inscription.getDateValidation() %}
+                Validé
+            {% else %}
+                En Attente
+            {% endif %}
+        </h5>
+        <div>
+            <h5>Restaurations :</h5>
+            {% if restaurations %}
+                <ul class="list-group">
+                    {% for resto in restaurations %}
+                        <li class="list-group-item">{{ resto.getTypeRepas|upper }}</li>
+                        {% endfor %}
+                </ul>
+
+            {% else %}
+                Pas de restauration
+            {% endif %}
+        </div>
+        <div>
+            <h5>Nuites :</h5>
+            <ul class="list-group">
+                {% for nuite in nuites %}
+                    <li class="list-group-item">
+                        Hotel : {{ nuite.getHotel().getNom() }}<br> 
+                        Chambre : {{ nuite.getCategorie.getLibelleCategorie() }}
+                    </li>
                 {% endfor %}
-        </ul>
+            </ul>
+        </div>
+        <h3>Total : {{ total }}€</h3>
+
+        {% if not inscription.getDateValidation() %}
+            <form action="{{ path('inscription_valider_inscription') }}" method='post'>
+                <input type="hidden" name="inscriptionValide" value="{{ inscription.getId() }}"/>
+                <div class="form-group">
+                    <label for="email">Envoyer le total à cette adresse :</label>
+                    <input id="email" name="email" value="{{ user.getEmail() }}" class="form-control"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Valider l'inscription</button>
+            </form>
+        {% endif %}
     </div>
-    <p> Total : {{ total }}€
-    </p>
-    
-    {% if not inscription.getDateValidation() %}
-    <form action="{{ path('inscription_valider_inscription') }}" method='post'>
-        <input type="hidden" name="inscriptionValide" value="{{ inscription.getId() }}"/>
-        <label for="email">Envoyer le total à cette adresse :</label>
-        <input id="email" name="email" value="{{ user.getEmail() }}"/>
-        <button type="submit">Valider l'inscription</button>
-    </form>
-    {% endif %}
 {% endblock %}

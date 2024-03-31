@@ -16,3 +16,11 @@
     border: none !important;
     border-width:0!important;
 }
+
+.form-user{
+    margin: 0 auto; 
+    width:250px;
+}
+.form-control .btn {
+    margin-left: 25% 
+}
