@@ -10,3 +10,9 @@
     display: block;
     margin: auto;
 }
+
+.navbar-light {
+    background-color: #2199e8 !important;
+    border: none !important;
+    border-width:0!important;
+}

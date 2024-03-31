@@ -9,9 +9,6 @@
             <link rel="stylesheet" href='{{ asset('css/style.css') }}'>
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
         {% block body %}
@@ -22,12 +19,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('inscription_demande_inscription') }}">S'inscrire</a>
-                        </li>
+                        {% if is_granted('ROLE_USER')%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_choix_form') }}">Créer des ateliers, themes et vacations</a>
+                            </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_INSCRIT') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('inscription_demande_inscription') }}">S'inscrire</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">Creer un compte</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>

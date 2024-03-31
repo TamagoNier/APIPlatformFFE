@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
+    
     <p> Status de l'inscription :
         {% if inscription.getDateValidation() %}
             Validé
@@ -35,6 +37,8 @@
     {% if not inscription.getDateValidation() %}
     <form action="{{ path('inscription_valider_inscription') }}" method='post'>
         <input type="hidden" name="inscriptionValide" value="{{ inscription.getId() }}"/>
+        <label for="email">Envoyer le total à cette adresse :</label>
+        <input id="email" name="email" value="{{ user.getEmail() }}"/>
         <button type="submit">Valider l'inscription</button>
     </form>
     {% endif %}

@@ -106,7 +106,7 @@ class InscriptionController extends AbstractController
     }
     
     #[Route('/validerinscription', name: 'valider_inscription')]
-    public function validerInscription(Request $r, EntityManagerInterface $em)
+    public function validerInscription(Request $r, EntityManagerInterface $em,MailerInterface $mailer)
     {
         $user = $this->getUser();
         $inscription = $user->getInscription();
@@ -115,6 +115,21 @@ class InscriptionController extends AbstractController
             $inscription->setDateValidation(new \DateTime());
             $em->persist($inscription);
             $em->flush();
+            
+            $emailTotal = (new TemplatedEmail())
+                    ->from('egor_gut@outlook.fr')
+                    ->to($email)
+                    //->to('egor-gut@outlook.fr')
+                    ->subject("Inscription Validée")
+                    ->htmlTemplate('email/totalInscription.html.twig')
+                    ->context([
+                'user' => $user,
+                'total' => $total,
+                'ateliers' => $inscription->getAteliers(),
+                    ])
+            ;
+
+            $mailer->send($emailTotal);
         }
         
         $fraisInscription = $this->getParameter('fraisInscription');

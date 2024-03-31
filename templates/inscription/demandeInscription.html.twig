@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <p>nom : {{ user.getLicencie().getNom() }}</p>
     <p>prenom : {{ user.getLicencie().getPrenom() }}</p>
     <p>numéro de licence : {{ user.getLicencie().getNumLicence() }}</p>

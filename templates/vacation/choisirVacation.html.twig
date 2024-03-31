@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     {% for vacation in vacations %}
         <a href="{{ path('add_vacation', {'idVacation': vacation.id }) }}">{{ vacation.id }}</a><br>
     {% endfor %}

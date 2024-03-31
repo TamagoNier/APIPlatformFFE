@@ -3,11 +3,12 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    {{ parent() }}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <h1>Creation de compte</h1>
 
     {{ form_errors(registrationForm) }}
 

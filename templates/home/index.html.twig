@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <div>
         <div id="fond-baniere">
             <img id="baniere" src='{{ asset('images/fond.jpg') }}'>
@@ -34,17 +35,19 @@
             </div>
         </div>
         <div class="card">
-            <h5 class="card-title">Restauration</h5>
-            <p>Tarif repas:</p>
-            <ul>
-                <li> 38€ le repas</li>
-            </ul>
-            <p>Possibilités:s</p>
-            <ul>
-                <li>Samedi midi</li>
-                <li>Samedi soir</li>
-                <li>Dimanche midi</li>
-            </ul>
+            <div class="card-body">
+                <h3 class="card-title">Restauration</h3>
+                <p>Tarif repas:</p>
+                <ul>
+                    <li> 38€ le repas</li>
+                </ul>
+                <p>Possibilités</p>
+                <ul>
+                    <li>Samedi midi</li>
+                    <li>Samedi soir</li>
+                    <li>Dimanche midi</li>
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

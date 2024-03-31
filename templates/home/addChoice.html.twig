@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
 <form action="{{ path('user_form_ajout') }}" method="post">
     <label for="atelier">Atelier</label>
     <input type="radio" name="choice" id="atelier" value="atelier">
