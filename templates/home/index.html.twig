@@ -49,5 +49,16 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>Les Ateliers</h3>
+                <ul>
+                {% for atelier in ateliers %}
+                    <li>{{ atelier.getLibelle() }}</li>
+                {% endfor %}
+                </ul>
+            </div>
     </div>
+    </div>
+        
 {% endblock %}
