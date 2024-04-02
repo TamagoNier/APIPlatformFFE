@@ -80,6 +80,9 @@ class InscriptionController extends AbstractController
             $em->persist($user);
             $em->flush();
             
+            $url ="http://apiplatformffe/index.php/getlicenicies/".$user->getNumLicence();
+            $licencie = json_decode(@file_get_contents($url));
+            
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
                     ->to($email)
@@ -88,6 +91,7 @@ class InscriptionController extends AbstractController
                     ->htmlTemplate('email/inscriptionAttente.html.twig')
                     ->context([
                 'user' => $user,
+                'licencie' =>$licencie,
                 'total' => $total,
                 'ateliers' => $inscription->getAteliers(),
                     ])
@@ -117,6 +121,9 @@ class InscriptionController extends AbstractController
             $em->persist($inscription);
             $em->flush();
             
+            $url ="http://apiplatformffe/index.php/getlicenicies/".$user->getNumLicence();
+            $licencie = json_decode(@file_get_contents($url));
+            
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
                     ->to($user->getEmail())
@@ -125,6 +132,7 @@ class InscriptionController extends AbstractController
                     ->htmlTemplate('email/totalInscription.html.twig')
                     ->context([
                 'user' => $user,
+                'licencie' => $licencie,
                 'total' => $total,
                 'ateliers' => $inscription->getAteliers(),
                     ])
