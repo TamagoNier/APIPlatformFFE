@@ -32,9 +32,10 @@ class RegistrationController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $numeroLicence = $form->get('licencie')->getData();
-
-            $repo = $entityManager->getRepository(Licencie::class);
-            $licencie = $repo->findOneBy(['numlicence' => $numeroLicence]);
+            
+            $url = 'http://apiplatformffe/index.php/getlicenicie/'.$numeroLicence;
+            
+            $licencie = json_decode(@file_get_contents($url));
 
             if ($licencie) {
                 // encode the plain password
@@ -45,9 +46,9 @@ class RegistrationController extends AbstractController {
                         )
                 );
                 
-                $user->setEmail($licencie->getMail());
+                $user->setEmail($licencie->mail);
                 //$user->setEmail("egor-gut@outlook.fr");
-                $user->setLicencie($licencie);
+                $user->setNumLicence($numeroLicence);
 
                 $entityManager->persist($user);
                 $entityManager->flush();

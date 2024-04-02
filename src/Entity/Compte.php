@@ -32,12 +32,11 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Inscription $Inscription = null;
 
-    #[ORM\OneToOne(inversedBy: 'compte', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Licencie $licencie = null;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(length: 14)]
+    private ?string $numLicence = null;
 
     public function getId(): ?int
     {
@@ -140,18 +139,6 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLicencie(): ?Licencie
-    {
-        return $this->licencie;
-    }
-
-    public function setLicencie(Licencie $licencie): static
-    {
-        $this->licencie = $licencie;
-
-        return $this;
-    }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -160,6 +147,18 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getNumLicence(): ?string
+    {
+        return $this->numLicence;
+    }
+
+    public function setNumLicence(string $numLicence): static
+    {
+        $this->numLicence = $numLicence;
 
         return $this;
     }

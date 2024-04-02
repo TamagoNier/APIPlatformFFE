@@ -51,7 +51,8 @@ class InscriptionController extends AbstractController
             $inscription->addAteliers($formData['ateliers']);
 
             $email = $r->request->get('email');
-
+            $user->setEmail($email);
+                    
             $nuitsId =[];
             if($r->request->get('sept6_7')){
                 array_push($nuitsId,$r->request->get('sept6_7'));
@@ -118,7 +119,7 @@ class InscriptionController extends AbstractController
             
             $emailTotal = (new TemplatedEmail())
                     ->from('egor_gut@outlook.fr')
-                    ->to($email)
+                    ->to($user->getEmail())
                     //->to('egor-gut@outlook.fr')
                     ->subject("Inscription Validée")
                     ->htmlTemplate('email/totalInscription.html.twig')
