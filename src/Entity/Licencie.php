@@ -5,16 +5,29 @@ namespace App\Entity;
 use App\Repository\LicencieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 
 #[ORM\Entity(repositoryClass: LicencieRepository::class)]
+#[ApiResource,]
+#[ApiFilter(SearchFilter::class, properties: 
+    [
+        'id'=>'exact',
+        'numlicence' => 'exact',
+        'mail'=>'exact'
+    ])]
 class Licencie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ApiProperty]
     private ?int $id = null;
 
     #[ORM\Column(length: 11)]
+    #[ApiProperty]
     private ?string $numlicence = null;
 
     #[ORM\Column(length: 70)]
@@ -39,6 +52,7 @@ class Licencie
     private ?string $tel = null;
 
     #[ORM\Column(length: 100)]
+    #[ApiProperty]
     private ?string $mail = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -197,23 +211,6 @@ class Licencie
     public function setIdqualite(?qualite $idqualite): static
     {
         $this->idqualite = $idqualite;
-
-        return $this;
-    }
-
-    public function getCompte(): ?Compte
-    {
-        return $this->compte;
-    }
-
-    public function setCompte(Compte $compte): static
-    {
-        // set the owning side of the relation if necessary
-        if ($compte->getLicencie() !== $this) {
-            $compte->setLicencie($this);
-        }
-
-        $this->compte = $compte;
 
         return $this;
     }

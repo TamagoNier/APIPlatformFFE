@@ -4,8 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ClubRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
+#[ApiResource]
 class Club
 {
     #[ORM\Id]
