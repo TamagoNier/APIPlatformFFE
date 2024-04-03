@@ -25,6 +25,14 @@ class OracleController extends AbstractController {
         ]);
     }
 
+    /**
+     * Retourne un licencie selon l'idée fournie dans l'url
+     * 
+     * @param EntityManagerInterface $em
+     * @param Request $r
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     */
     #[Route('/getlicenicie/{numlicence}', name: 'getlicencie')]
     public function getLicencie(EntityManagerInterface $em, Request $r, SerializerInterface $serializer): JsonResponse {
         $numlicence = $r->get('numlicence');
@@ -39,8 +47,16 @@ class OracleController extends AbstractController {
         return new JsonResponse($licencieJson, Response::HTTP_OK, [], true);
     }
 
+    /**
+     * Retourne la liste de tous les licencies
+     * 
+     * @param EntityManagerInterface $em
+     * @param Request $r
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     */
     #[Route('/getlicenicies/{numlicence}', name: 'getlicencies')]
-    public function getLicencies(EntityManagerInterface $em, Request $r, SerializerInterface $serializer): JsonResponse {
+    public function getLicencies(EntityManagerInterface $em, SerializerInterface $serializer): JsonResponse {
         $licencies = $em->getRepository(Licencie::class)->findAll();
 
         $licenciesJson = $serializer->serialize($licencies, 'json', [
